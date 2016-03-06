@@ -1,0 +1,52 @@
+﻿@{
+    string bodyId = "";
+}
+<!DOCTYPE html>
+<html lang="en" ng-app="HomeApp">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>STS Administration Portal - Home</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/angular-animate")
+    @Scripts.Render("~/bundles/angular-route")
+    @Scripts.Render("~/bundles/angular-validator")
+    @Scripts.Render("~/bundles/angular-infinite")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap-toggle")
+    @Scripts.Render("~/bundles/ngProgress")
+    @Scripts.Render("~/bundles/chosen_jquery")
+    @Scripts.Render("~/bundles/chosen_proto")
+    @Scripts.Render("~/bundles/moment")
+    @Scripts.Render("~/bundles/angular-moment")
+    @*Scripts.Render("~/bundles/angular-dataTables")*@
+    @*Scripts.Render("~/bundles/dataTables_bootstrap")*@
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        var HomeApp = angular.module('HomeApp', ['ngAnimate', 'ngRoute', 'ngProgress', 'angularValidator', 'infinite-scroll', 'angularMoment'])
+        HomeApp.config(function (ngProgressProvider) {
+            // Default color is firebrick
+            ngProgressProvider.setColor('firebrick');
+            // Default height is 2px
+            ngProgressProvider.setHeight('2px');
+        });
+    </script>
+</head>
+<body id="@ViewBag.BodyId">
+    @RenderBody()  
+</body>
+</html>

@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.BodyId = "AdminHomeBody";
+}
+
+<div class="vertical-center">
+    <div id="AdminHomeContent">
+        <div class="container">
+            <center>
+                <h1 id="HomeText" class="pull-center">Welcome To:</h1>
+                <img src="~/Images/Logo.png" class="img-responsive" alt="Responsive image">
+                <h1 id="H1" class="pull-center">Store Management System</h1>
+
+                <h1><a href="#" id="LoginButton" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-play"></span> Open Application</a></h1>
+            </center>
+        </div>        
+    </div>    
+</div>
+<footer>
+    <center><p>&copy; @DateTime.Now.Year - USM All Rights Are Reserved!</p></center>
+</footer>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h1 class="modal-title" id="myModalLabel">Please Login</h1>
+            </div>
+            <div class="modal-body" ng-controller="validateCtrl" ng-init="failed=0;success=0;loading=0;button='Login';error=0;">
+                <div class="alert alert-danger animate-show-hide" role="alert" ng-show="failed">
+                    <span class="glyphicon glyphicon-remove"></span> {{LoginErrorMessage}}
+                </div>
+                <div class="alert alert-success animate-show-hide" role="alert" ng-show="success">
+                    <span class="glyphicon glyphicon-ok"></span> Login successful, redirecting to Dashboard, please wait...
+                </div>
+                <div class="alert alert-danger animate-show-hide" role="alert" ng-show="error">
+                    <span class="glyphicon glyphicon-remove"></span> {{ErrorMessage}}
+                </div>
+                <div ng-show="loading">
+                    <div class="circle"></div>
+                    <div class="circle1"></div>
+                </div>
+                <form ng-submit="Login()" role="form" name="myForm" novalidate>
+                    <div ng-show="!loading">
+                        <fieldset>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-user required"></span></span>
+                                <input type="text" class="form-control" id="username" placeholder="Username" name="username" ng-model="username" aria-describedby="basic-addon1" required autofocus />
+                            </div>
+                            <div class="alert alert-warning animate-show-hide" role="alert" ng-show="myForm.username.$dirty && myForm.username.$invalid">
+                                <span ng-show="myForm.username.$error.required">
+                                    <span class="glyphicon glyphicon-warning-sign"></span> Username is required.
+                                </span>
+                            </div>
+                            <br />
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon glyphicon-asterisk required"></span></span>
+                                <input class="form-control" ng-model="password" placeholder="Password" name="password" type="password" value="" required>
+                            </div>
+                            <div class="alert alert-warning animate-show-hide" role="alert" ng-show="myForm.password.$dirty && myForm.password.$invalid">
+                                <span ng-show="myForm.password.$error.required">
+                                    <span class="glyphicon glyphicon-warning-sign"></span> Password is required.
+                                </span>
+                            </div>
+                            <center>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" data-toggle="toggle" data-size="small">
+                                        Remember Me
+                                    </label>
+                                </div>
+                            </center>
+                        </fieldset>
+                    </div>
+                    <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
+                </form>
+                <div class="modal-footer">
+                    <button ng-show="!success" type="button" class="btn btn-lg btn-default" data-dismiss="modal">Close</button>
+                    <button ng-click="Login()" ng-disabled="myForm.username.$invalid || myForm.password.$invalid || loading" type="button" class="btn btn-lg btn-primary">{{button}}</button>
+                </div>
+            </div>
+            <script>
+    HomeApp.controller('validateCtrl', function ($scope, $http, ngProgress, $window) {
+        $scope.ErrorMessage = "";
+        $scope.Login = function () {
+            $scope.setLoading(true);
+            $scope.failed = 0;
+            $scope.error = 0;
+            $scope.button = "Loading...";
+            $scope.focusElement = "username";
+            $http.post('@Url.Content("~/")api/authenticate', { 'Username': $scope.username, 'Password': $scope.password }).success(function (data) {
+                            if (data.success) {
+                                  $scope.setLoading(false);
+                                  $scope.failed = 0;
+                                  $scope.success = 1;
+                                  $window.location.href = '@Url.Content("~/")Home/Dashboard/';
+                              }
+                              else {
+                                $scope.failed = 1;
+                                $scope.LoginErrorMessage = data.message;
+                                $scope.setLoading(false);
+                                $scope.button = "Login";
+                              }
+                          }).error(function (data, status, headers, config) {
+                              //alert("Error Number:" + status);
+                              $scope.ErrorMessage = "Request could not be performed (Error Number:" + status+")";
+                              $scope.error = 1;
+                              $scope.loading = 0;
+                              $scope.button = "Login";
+                          });
+                      };
+                      $scope.setLoading = function (isLoading) { $scope.loading = isLoading; if (isLoading) ngProgress.start(); else ngProgress.complete(); };
+                      $scope.setUsernameActive = function (isLoading) { $scope.loading = isLoading; ngProgress.start(); };
+                  });
+
+                  $('#myModal').on('shown.bs.modal', function () {
+                      $('#username').focus()
+                  })
+            </script>
+        </div>
+    </div>
+</div>

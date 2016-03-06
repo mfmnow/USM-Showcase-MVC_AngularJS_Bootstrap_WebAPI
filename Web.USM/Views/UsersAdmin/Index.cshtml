@@ -1,0 +1,300 @@
+﻿
+
+@model IEnumerable<USM.DAL.Models.User>
+
+@{
+    Layout = null;
+}
+<div tabindex="-1" id="ListControl" ng-controller="ListControl" ng-init="endOfResults=0;counter=0;loading=0;error=0;objectsList=null;GetList();">
+    <div class="width100">
+        <div class="modal-content">
+            <div class="form-horizontal">
+                <div class="bs-callout bs-callout-info form-group" style="margin:3px;margin-bottom:10px;">
+                    <h4>Manage Users</h4>
+                </div>
+                <div class="alert alert-danger animate-show-hide" role="alert" ng-show="error">
+                    <span class="glyphicon glyphicon-remove"></span> {{ErrorMessage}}
+                </div>
+                <div class="btn-group" style="width:100%;margin-bottom:10px;">
+                    <button type="button" class="btn usm-dropdown-btn btn-primary dropdown-toggle btn-sm" style="width:100%;text-align:left;" data-toggle="dropdown" aria-expanded="false">
+                        Filter Options: <span ng-hide="hideExtraCols" ng-bind-html="FilterOptions"></span> <span class="caret pull-right"></span>
+                    </button>
+                    <ul ng-click="MenuClicked($event);" class="dropdown-menu usm-dropdown-menu" role="menu">
+                        <li role="presentation" class="dropdown-header">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1" title="Username"><span class="glyphicon glyphicon-user"></span></span>
+                                <input aria-describedby="basic-addon1" class="form-control text-box single-line" id="Username" ng-model="Username" placeholder="Username like" value="" />
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1" title="Full Name"><span class="glyphicon glyphicon-user"></span></span>
+                                <input aria-describedby="basic-addon1" class="form-control text-box single-line" id="Username" ng-model="FullName" placeholder="Full Name like" value="" />
+                            </div>
+                        </li>
+                        <li>
+                            <center><button ng-click="SearchClicked=true;objectsList = null;GetList();" isbutton="true" class="btn btn-primary">Filter</button></center>
+                        </li>
+                    </ul>
+                </div>
+                <div infinite-scroll='loadMore()' infinite-scroll-distance='2' infinite-scroll-disabled='endOfResults'>
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><button class="btn btn-default disabled pull-left">#</button></th>
+                                <th><button id="FirstCol" desc="desc" ng-click="Refresh($event);" type="button" value="Username" class="btn btn-info pull-left">Username ▲</button></th>
+                                <th ng-hide="hideExtraCols"><button value="FullName" ng-click="Refresh($event);" type="button" class="btn btn-primary pull-left">Full Name</button></th>
+                                <th ng-hide="hideExtraCols"><button ng-click="Refresh($event);" type="button" value="MobileNumber" class="btn btn-primary pull-left">Mobile</button></th>
+                                <th ng-hide="hideExtraCols"><button ng-click="Refresh($event);" type="button" value="Email" class="btn btn-primary pull-left">Email</button></th>
+                                <th ng-hide="hideExtraCols"><button ng-click="Refresh($event);" type="button" class="btn btn-primary pull-left" value="UserIsDisabled">User Status</button></th>
+                                <th ng-hide="hideExtraCols"><button ng-click="Refresh($event);" type="button" class="btn btn-primary pull-left" value="UserRole/Name">Role</button></th>
+                                <th><center><button type="button" class="btn btn-default disabled">Edit</button></center></th>
+                                <th><center><button type="button" class="btn btn-default disabled">Details</button></center></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="iObject in objectsList" ng-class-even="'bgRow'" class="animate">
+                                <td>{{$index + 1}}</td>
+                                <td>{{ iObject.Username }}</td>
+                                <td ng-hide="hideExtraCols">{{ iObject.FullName }}</td>
+                                <td ng-hide="hideExtraCols">{{ iObject.MobileNumber }}</td>
+                                <td ng-hide="hideExtraCols">{{ iObject.Email }}</td>
+                                <td ng-hide="hideExtraCols">{{ iObject.UserIsDisabled }}</td>
+                                <td ng-hide="hideExtraCols">{{ iObject.UserRole.Name }}</td>
+                                <td align="center"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></button></td>
+                                <td align="center"><button type="button" ng-click="OpenDetails(iObject);" class="btn btn-info" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-list-alt"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div ng-show="loading">
+                        <div class="circle"></div>
+                        <div class="circle1"></div>
+                    </div>
+                    <center><p ng-show="endOfResults && !loading" class="bg-primary" style="padding:3px;"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> That's it, no more results</p></center>
+                    <button ng-show="!endOfResults && !loading" type="button" class="btn btn-primary btn-xs pull-right" ng-click="GetList();">Load more results</button>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:90%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h1 class="modal-title" id="myModalLabel">User Details</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success animate-show-hide" role="alert" ng-show="deleteSuccess">
+                        <span class="glyphicon glyphicon-ok"></span> User deleted, updating view, please wait...
+                    </div>
+                    <div class="alert alert-danger animate-show-hide" role="alert" ng-show="deleteError">
+                        <span class="glyphicon glyphicon-remove"></span> {{DeleteErrorMessage}}
+                    </div>
+                    <div ng-show="deleteLoading">
+                        <div class="circle"></div>
+                        <div class="circle1"></div>
+                    </div>
+                    <div class="container-fluid">
+                        <table class="table table-hover table-condensed">
+                            <tr>
+                                <td>Username</td>
+                                <td>{{ ModalObject.Username }}</td>
+                            </tr>
+                            <tr class="bgRow">
+                                <td>FullName</td>
+                                <td>{{ ModalObject.FullName }}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>{{ ModalObject.Email }}</td>
+                            </tr>
+                            <tr class="bgRow">
+                                <td>MobileNumber</td>
+                                <td>{{ ModalObject.MobileNumber }}</td>
+                            </tr>
+                            <tr>
+                                <td>UserIsDisabled</td>
+                                <td>{{ ModalObject.UserIsDisabled }}</td>
+                            </tr>
+                            <tr class="bgRow">
+                                <td>UserRole</td>
+                                <td>{{ ModalObject.UserRole.Name }}</td>
+                            </tr>
+                            <tr>
+                                <td>CreateDate</td>
+                                <td>{{ModalObject.CreateDate | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}} (<span am-time-ago="ModalObject.CreateDate" style="font-style:italic;"></span>)</td>
+                            </tr>
+                            <tr class="bgRow">
+                                <td>LastUpdateDate</td>
+                                <td>{{ModalObject.LastUpdateDate | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}} (<span am-time-ago="ModalObject.LastUpdateDate" style="font-style:italic;"></span>)</td>
+                            </tr>
+                            <tr>
+                                <td>UserIsDeleted</td>
+                                <td>{{ ModalObject.IsDeleted }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-show="!deleteLoading" type="button" id="DeleteClose" class="btn btn-lg btn-default" data-dismiss="modal">Close</button>
+                        <button ng-click="Delete(ModalObject.UserID)" ng-show="!deleteSuccess" ng-disabled="deleteLoading" type="button" class="btn btn-lg btn-danger">{{DeleteButton}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+</div>
+
+<script>
+    var ListControl = HomeApp.registerCtrl('ListControl', function ($scope, $http, $window, ngProgress, $sce) {
+        $scope.hideExtraCols = $window.SmallScreen;
+        $scope.ErrorMessage = "";
+        $scope.Rerun = false;
+        $scope.SortBy = "Username";
+        $scope.CurrentSortObject = document.querySelector('#FirstCol');
+        $scope.FilterOptions = $sce.trustAsHtml('<i>No filters applied</i>');
+        $scope.AllowModelClose = false;
+
+        $scope.Refresh = function ($event) {
+            var _buttonText = angular.element($scope.CurrentSortObject).text();
+            if ($event.currentTarget.attributes['value'].value != $scope.SortBy) {
+                angular.element($scope.CurrentSortObject).removeClass("btn-info");
+                angular.element($scope.CurrentSortObject).addClass("btn-primary");
+                angular.element($scope.CurrentSortObject).text(_buttonText.replace(" ▼", "").replace(" ▲", ""));
+
+                angular.element($event.currentTarget).removeClass("btn-primary");
+                angular.element($event.currentTarget).addClass("btn-info");
+            }
+            if ($event.currentTarget.attributes['value'].value)
+                $scope.SortBy = $event.currentTarget.attributes['value'].value;
+            _buttonText = angular.element($event.currentTarget).text();
+
+            if (!$event.currentTarget.attributes['desc']) {
+                $scope.SortBy += "";
+                $event.currentTarget.attributes['desc'] = "desc";
+                angular.element($event.currentTarget).text(_buttonText.replace(" ▼", "") + " ▲");
+            }//if
+            else {
+                $scope.SortBy += " desc";
+                $event.currentTarget.attributes['desc'] = null;
+                angular.element($event.currentTarget).text(_buttonText.replace(" ▲", "") + " ▼");
+            }
+            $scope.CurrentSortObject = $event.currentTarget;
+            $scope.objectsList = null;
+            $scope.GetList();
+        }
+
+        $scope.GetList = function () {
+            if (!$scope.loading) {
+                $scope.setLoading(true);
+                $scope.error = 0;
+                var _index = !$scope.objectsList ? 0 : $scope.objectsList.length;
+                var _pageSize = 10;
+                var _filter = "$filter=true ";
+                var _filterOptions = "(";
+                if ($scope.Username) {
+                    _filter += " and substringof('" + $scope.Username + "',Username) eq true";
+                    _filterOptions += " [Username like '<i>" + $scope.Username + "</i>'] ";
+                }
+                if ($scope.FullName) {
+                    _filter += " and substringof('" + $scope.FullName + "',Username) eq true";
+                    _filterOptions += " [Full Name like '<i>" + $scope.FullName + "</i>'] ";
+                }
+                _filterOptions += ")";
+                if (_filter != "$filter=true ")
+                    $scope.FilterOptions = $sce.trustAsHtml(_filterOptions);
+                //console.log('@Url.Content("~/")api/UserAPI?' + _filter + '&$orderby=' + $scope.SortBy + '&$top=' + _pageSize + '&$skip=' + _index + '&Rand=' + Math.random());
+                $http.get('@Url.Content("~/")api/UserAPI?' + _filter + '&$orderby=' + $scope.SortBy + '&$top=' + _pageSize + '&$skip=' + _index + '&Rand=' + Math.random()).success(function (data) {
+                    if (!$scope.objectsList)
+                        $scope.objectsList = data;
+                    else {
+                        for (i = 0 ; i < data.length; i++)
+                            $scope.objectsList.push(data[i]);
+                    }
+                    $scope.setLoading(false);
+                    if (data.length < _pageSize) {
+                        $scope.endOfResults = 1;
+                    }
+                    else
+                        $scope.endOfResults = 0;
+                    if ($scope.Rerun && !$scope.endOfResults) {
+                        $scope.Rerun = false;
+                        $scope.GetList();
+                    }
+                    if($scope.AllowModelClose)
+                        document.querySelector('#DeleteClose').click();
+                }).error(function (data, status, headers, config) {
+                    $scope.ErrorMessage = "Request could not be performed (Error Number:" + status + ")";
+                    $scope.error = 1;
+                    $scope.setLoading(false);
+                    if ($scope.AllowModelClose)
+                        document.querySelector('#DeleteClose').click();
+                });
+            };
+        };
+        $scope.setLoading = function (isLoading) { ngProgress.complete(); $scope.loading = isLoading; if (isLoading) ngProgress.start(); else ngProgress.complete(); };
+        $scope.MaxID = 0;
+        $scope.loadMore = function () {
+            if (!$scope.loading)
+                $scope.GetList();
+            else
+                $scope.Rerun = true;
+        };
+
+        $scope.MenuClicked = function ($event) {
+            var _isButton = $event.target.attributes['isButton'] ? true : false;
+            if (!_isButton) {
+                $event.stopPropagation();
+            }
+        }
+
+        $scope.OpenDetails = function(iobject)
+        {
+            $scope.deleteSuccess = 0;
+            $scope.DeleteButton = "Delete";
+            $scope.AllowModelClose = false;
+            $scope.deleteError = 0;
+            $scope.ModalObject = iobject;
+        }
+
+        $scope.Delete = function(objectID)
+        {
+            if (!$window.confirm("Are you sure you want to delete this User?"))
+                return;
+            $scope.setDeleteLoading(true);
+            $scope.deleteFailed = 0;
+            $scope.deleteError = 0;
+            $scope.DeleteButton = "Deleting User, please wait...";
+            $http.delete('@Url.Content("~/")api/UserAPI?id=' + objectID).success(function (data) {
+                if (data.success) {
+                    $scope.setDeleteLoading(false);
+                    $scope.deleteFailed = 0;
+                    $scope.deleteSuccess = 1;
+                    $scope.objectsList = null;
+                    $scope.AllowModelClose = true;
+                    $scope.GetList();
+                }//if
+                else {
+                    $scope.DeleteErrorMessage = "Request could not be performed (Reason:" + data.message + ")";
+                    $scope.deleteError = 1;
+                    $scope.setDeleteLoading(false);
+                    $scope.DeleteButton = "Delete";
+                }
+                //alert("Success!");
+            }).error(function (data, status, headers, config) {
+                //alert("Error Number:" + status);
+                $scope.DeleteErrorMessage = "Request could not be performed (Error Number:" + status + ")";
+                $scope.deleteError = 1;
+                $scope.setDeleteLoading(false);
+                $scope.DeleteButton = "Delete";
+                //alert("Error!");
+            });
+        }
+        $scope.setDeleteLoading = function (isLoading) { ngProgress.complete(); $scope.deleteLoading = isLoading; if (isLoading) ngProgress.start(); else ngProgress.complete(); };
+    });
+    $('.usm-dropdown-link').click(function (e) {
+        e.preventDefault();
+    });
+
+    //moment().startOf('hour').fromNow();
+</script>

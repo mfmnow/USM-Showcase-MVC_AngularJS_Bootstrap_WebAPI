@@ -1,0 +1,205 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.BodyId = "AdminDashboardBody";
+}
+
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top" style="height:77px;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-4">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand navbar-left" href="#"><button class="btn btn-primary navbar-left menu-toggle" id="menu-toggle" style="margin:0px;"><span class="glyphicon glyphicon-transfer" aria-hidden="true"><br />Menu</button></a>
+            <a class="navbar-brand navbar-left" href="#" style="padding-left:0px;padding-right:0px;"><img alt="STS USM" src="~/Images/Logo.50.png"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-4">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" id="NotificationButtonContainer">
+                    <button type="button" id="NotificationButton" title="User Options" class="btn" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <span class="badge badgeDanger">21</span></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><font style="color:black;">Notifications List</font></li>
+                    </ul>
+                </li>
+                <li class="dropdown" id="NotificationButtonContainer">
+                    <button type="button" id="NotificationButton" title="User Options" class="btn" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span class="badge badgeDanger">4</span></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><font style="color:black;">Tasks List</font></li>
+                    </ul>
+                </li>
+                <li class="dropdown" id="NotificationButtonContainer">
+                    <button type="button" id="NotificationButton" title="User Options" class="btn" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Edit Profile</a></li>
+                        <li><a href="#">Another action1</a></li>
+                        <li><a href="#">Something else here1</a></li>
+                        <li class="divider"></li>
+                        <li ng-controller="SignoutController"><a ng-click="Signout()" href="#">Signout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>    
+</nav>
+
+<script>
+    HomeApp.controller('SignoutController', function ($scope, $http, ngProgress, $window) {
+        $scope.Signout = function () {
+            $scope.setLoading(true);
+            $http.get('@Url.Content("~/")api/authenticate/signout', { 'Username': $scope.username, 'Password': $scope.password }).success(function (data) {
+                if (data.success) {
+                    $scope.setLoading(false);
+                    $window.location.href = '@Url.Content("~/")Home/Default/';
+                }
+            }).error(function (data, status, headers, config) {
+                $scope.setLoading(false);
+                alert("Logout failed");
+            });
+        };
+        $scope.setLoading = function (isLoading) { if (isLoading) ngProgress.start(); else ngProgress.complete(); };
+    });
+
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#username').focus()
+    })
+</script>
+
+<div id="wrapper" class="wrapper" ng-controller="cfgRouter">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <div id="menu">
+            <div class="panel list-group">
+                <a id="linkhome" href="#/home" class="list-group-item active"><span class="glyphicon glyphicon-home pull-left"></span> &nbsp; Home</a>
+
+                <a href="#" class="list-group-item list-group-item-dis active" data-toggle="collapse" data-target="#StrategicDirection" data-parent="#menu"><span class="glyphicon glyphicon-user pull-left"></span> &nbsp; Users Admin</a>
+                <div id="StrategicDirection" class="sublinks collapse">
+                    <ul class="list-group">
+                        <li class="list-group-item"><span class="glyphicon glyphicon-user pull-left"></span> &nbsp; <a href="#/UserCreate/UserID/0">Create</a></li>
+                        <li class="list-group-item"><span class="glyphicon glyphicon-user pull-left"></span> &nbsp; <a href="#/usermanage">Manage</a></li>
+                        <!--<li class="list-group-item"><span class="glyphicon glyphicon-th-list pull-left"></span> &nbsp; <a href="#/help">Strategic Direction</a></li>-->
+                    </ul>
+                </div>
+
+                <a href="#" class="list-group-item list-group-item-dis active" data-toggle="collapse" data-target="#AnnualReports" data-parent="#menu"><span class="glyphicon glyphicon-list-alt pull-left"></span> &nbsp; User Roles Admin</a>
+                <div id="AnnualReports" class="sublinks collapse">
+                    <ul class="list-group">
+                        <li class="list-group-item"><span class="glyphicon glyphicon-user pull-left"></span> &nbsp; <a href="#/UserRolesCreate">Create</a></li>
+                        <li class="list-group-item"><span class="glyphicon glyphicon-user pull-left"></span> &nbsp; <a href="#/UserRolesManage">Manage</a></li>
+                    </ul>
+                </div>
+                <!--
+                <a href="#" class="list-group-item active" data-toggle="collapse" data-target="#BoardsAndCommittees" data-parent="#menu"><span class="glyphicon glyphicon-user pull-left"></span> &nbsp; Boards and Committees</a>
+                <div id="BoardsAndCommittees" class="sublinks collapse">
+                    <div id="menuBoardsAndCommittees">
+                        <div class="panel list-group InnerMenu">
+                            <a href="#" class="list-group-item InnerMenuHead" data-toggle="collapse" data-target="#ExecutiveFinanceCommittee" data-parent="#menuBoardsAndCommittees"><span class="glyphicon glyphicon-list-alt pull-left"></span> &nbsp; Executive/Finance Committee</a>
+                            <div id="ExecutiveFinanceCommittee" class="sublinks collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><span class="glyphicon glyphicon-th-list pull-left"></span> &nbsp; <a href="Files/Documents/Governance/2014-17%20Strategic%20Direction.pdf" target="_blank">Strategic Direction</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper width100" style="padding:10px;">
+        <div class="container-fluid width100" style="padding:0px;">
+            <div ng-view class="view-animate width100" style="padding:0px;"></div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+<script>
+
+    function getRandomURL(url) { return url + "?" + Math.random(); }
+    function getSuccessHTML(objectName, actionName, objectIdName) { return '<div tabindex="-1"> '+
+        '<div class="width100"> '+
+        '    <div class="modal-content"> '+
+        '        <div class="modal-header">'+
+        '   <h1 class="modal-title">' + objectName + '</h1> ' +
+        '    <hr /> '+
+        '    <div> '+
+        '        <center> '+
+        '            <div class="alert alert-success animate-show-hide" role="alert"> '+
+        '                <span class="glyphicon glyphicon-ok"></span> ' + objectName + ' Created Successfully.<br/> ' +
+        '                <a href="#/' + objectName + 'Create/' + objectIdName + '/0">Create New ' + objectName + '</a>. ' +
+        '            </div> '+
+        '        </center> '+
+        '    </div></div></div></div>'}
+    var _url = '/UsersAdmin/Create?' + Math.random();
+    HomeApp.config(['$routeProvider', '$controllerProvider', function ($routeProvider, $controllerProvider) {
+        HomeApp.registerCtrl = $controllerProvider.register;
+        $routeProvider
+          .when('/home', {
+              templateUrl: function () { return getRandomURL('/Home/DashboardHome'); }
+          })
+          .when('/help', {
+              templateUrl: function () { return getRandomURL('/Home/Help'); }
+          })
+         .when('/UserCreate/UserID/:userID', {
+             templateUrl: function ($routeParams) { return getRandomURL('/UsersAdmin/Create'); }
+         })
+         .when('/usermanage', {
+             templateUrl: function () { return getRandomURL('/UsersAdmin/Index'); }
+         })
+        .when('/UserRolesCreate', {
+            templateUrl: function () { return getRandomURL('/UserRoles/Create'); }
+        })
+        .when('/UserRolesManage', {
+            templateUrl: function () { return getRandomURL('/UserRoles/Index'); }
+        })
+        .when('/success/Object/:objectName/Action/:actionName/ObjectIdName/:objectIdName', {
+            template: function ($routeParams) { return getSuccessHTML($routeParams.objectName, $routeParams.actionName, $routeParams.objectIdName); }
+        });
+    }]);
+
+    HomeApp.controller('cfgRouter', function ($scope, ngProgress) {
+
+    });
+
+    
+    HomeApp.run(['$location', '$rootScope', 'ngProgress', '$window', '$route', '$templateCache', function ($location, $rootScope, ngProgress, $window, $route, $templateCache) {
+        $rootScope.$on("$routeChangeStart", function (event, next, current) {
+            ngProgress.start();
+        });
+        $rootScope.$on("$routeChangeSuccess", function (event, next, current) {
+            if ($(".navbar-toggle").is(":visible"))//Mobile Case
+            {
+                if ($("#menu").width()>0)//if menu is visible
+                    $(".menu-toggle").trigger("click");
+            }//if
+            ngProgress.complete();
+        });
+        $rootScope.$on("$routeChangeError", function (event, param2, param3, param4) {
+            ngProgress.complete();
+            $window.location.href = '@Url.Content("~/")Home/Default/';
+        });
+        //$location.path("/home");
+    }]);
+</script>
+
+<!-- /#wrapper -->
+<!-- Menu Toggle Script -->
+<script>
+    var SmallScreen = !($("#menu").width() > 0);
+    $(".menu-toggle").click(function (e) {
+        e.preventDefault();
+        $(".wrapper").toggleClass("toggled");
+    });
+    $('a.list-group-item-dis').click(function (e) {
+        e.preventDefault();
+    });
+</script>
+
+

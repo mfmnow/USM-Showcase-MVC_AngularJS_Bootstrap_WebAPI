@@ -1,0 +1,109 @@
+﻿
+
+@model USM.DAL.Models.UserRole
+
+@{
+    Layout = null;
+}
+
+    <div tabindex="-1" ng-controller="SubmitControl" id="CreateUserRoleApp" ng-init="failed=0;success=0;loading=0;button='Create User Role';error=0;">
+        <div class="width100">
+            <div class="modal-content">
+                <div class="modal-header">
+    @using (Html.BeginForm("actionName", "controllerName", FormMethod.Post, new {angular_validator="", novalidate="",ng_submit="Submit()", role="form",  id="CreateUserRoleAppForm",  name="CreateUserRoleAppForm"})) 
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <div class="bs-callout bs-callout-info form-group">
+    			<h4>Create User Role</h4>
+    		</div>
+            <div class="alert alert-danger animate-show-hide" role="alert" ng-show="error">
+                <span class="glyphicon glyphicon-remove"></span> {{ErrorMessage}}
+            </div>
+            <div ng-show="loading">
+                <div class="circle"></div>
+                <div class="circle1"></div>
+            </div>
+    		<div ng-show="!loading">
+    		
+            <div class="form-group">
+    						<div class="input-group">
+    					<span class="input-group-addon" id="basic-addon1" title="Name"><span class="glyphicon glyphicon-align-justify required"></span></span>
+    					@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", aria_describedby="basic-addon1" ,required="required" ,autofocus = "autofocus", placeholder=Html.DisplayNameFor(model => model.Name) , ng_model="Name"}
+    							})
+    					</div>
+    	                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+    
+            <div class="form-group">
+    						<div class="input-group">
+    					<span class="input-group-addon" id="basic-addon1" title="Description"><span class="glyphicon glyphicon-align-justify "></span></span>
+    					@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", aria_describedby="basic-addon1"  ,autofocus = "autofocus", placeholder=Html.DisplayNameFor(model => model.Description) , ng_model="Description"}
+    							})
+    					</div>
+    	                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+    
+            </div>
+    		<div class="form-group">
+                <div class="content-fluid">
+        			<center>
+                        <input ng-click="Submit()" ng-show="!success" ng-disabled="loading" type="submit" value="{{button}}" class="btn btn-lg btn-primary" />
+        			</center>
+                </div>
+            </div>
+        </div>
+    }
+    
+			</div>
+        </div>
+    </div>
+</div>
+<script>
+	$(".chosen-select").chosen({width: "100%"})
+	HomeApp.registerCtrl('SubmitControl', function ($scope, $http, ngProgress, $window, $location) {
+        $scope.ErrorMessage = "";
+        $scope.Submit = function () {
+            if (!$scope.CreateUserRoleAppForm.$invalid) {
+                $scope.setLoading(true);
+                $scope.failed = 0;
+                $scope.error = 0;
+                $scope.button = "Creating User Role, please wait...";
+                
+                $http.post('@Url.Content("~/")api/UserRoleAPI', {
+				'Name': $scope.Name,'Description': $scope.Description
+                }).success(function (data) {
+                    if (data.success)
+                    {
+                        $scope.setLoading(false);
+                        $scope.failed = 0;
+                        $scope.success = 1;
+						$location.path('/success/Object/User Role/Action/Created');
+                    }//if
+                    else
+                    {
+                        $scope.ErrorMessage = "Request could not be performed (Reason:" + data.message + ")";
+                        $scope.error = 1;
+                        $scope.setLoading(false);
+                        $scope.button = "Create User Role";
+                    }
+                    //alert("Success!");
+                }).error(function (data, status, headers, config) {
+                    //alert("Error Number:" + status);
+                    $scope.ErrorMessage = "Request could not be performed (Error Number:" + status+")";
+                    $scope.error = 1;
+                    $scope.setLoading(false);
+                    $scope.button = "Create User Role";
+                    //alert("Error!");
+                });
+            };
+        };
+        $scope.setLoading = function (isLoading) { $scope.loading = isLoading; if (isLoading) ngProgress.start(); else ngProgress.complete(); };
+    });
+    
+    
+    $('form').submit(function (evt) {
+        evt.preventDefault();
+    });
+</script>

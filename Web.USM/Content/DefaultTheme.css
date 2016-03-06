@@ -1,0 +1,585 @@
+/***
+BootStrap Improvments
+***/
+/* responsive text queries */
+@media screen and (max-width: 992px) {
+  p,span,h4 {
+    font-size: 95%;
+  }
+  h1 {
+    font-size: 24px;  
+  }
+  h2 {
+    font-size: 22px;  
+  }
+  h3 {
+    font-size: 18px;  
+  }
+}
+
+@media screen and (max-width: 768px) {
+  p,span,h4 {
+    font-size: 90%;
+  }
+  h1 {
+    font-size: 20px;  
+  }
+  h2 {
+    font-size: 18px;  
+  }
+  h3 {
+    font-size: 16px;  
+  }
+}
+body { padding-top: 75px; }
+select
+{
+    width:100%;
+    height:33px;
+}
+select option {
+    color:#000000;
+    text-shadow:0 1px 0 rgba(0,0,0,0.4);
+}
+select option::selection 
+{
+    color:#000000;
+}
+
+.bs-callout {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    background-color:white;
+}
+.bs-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+    margin-bottom: 0;
+}
+.bs-callout code {
+    border-radius: 3px;
+}
+.bs-callout+.bs-callout {
+    margin-top: -5px;
+}
+.bs-callout-default {
+    border-left-color: #777;
+}
+.bs-callout-default h4 {
+    color: #777;
+}
+.bs-callout-primary {
+    border-left-color: #428bca;
+}
+.bs-callout-primary h4 {
+    color: #428bca;
+}
+.bs-callout-success {
+    border-left-color: #5cb85c;
+}
+.bs-callout-success h4 {
+    color: #5cb85c;
+}
+.bs-callout-danger {
+    border-left-color: #d9534f;
+}
+.bs-callout-danger h4 {
+    color: #d9534f;
+}
+.bs-callout-warning {
+    border-left-color: #f0ad4e;
+}
+.bs-callout-warning h4 {
+    color: #f0ad4e;
+}
+.bs-callout-info {
+    border-left-color: #5bc0de;
+}
+.bs-callout-info h4 {
+    color: #5bc0de;
+}
+
+/***
+Loader Styles
+***/
+.circle {
+    background-color: rgba(0,0,0,0);
+    /*border: 5px solid rgba(0,183,229,0.9);*/
+    border: 5px solid rgba(255,255,255,0.9);
+    opacity: .9;
+    border-right: 5px solid rgba(0,0,0,0);
+    border-left: 5px solid rgba(0,0,0,0);
+    border-radius: 50px;
+    box-shadow: 0 0 35px #2187e7;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+    -moz-animation: spinPulse 1s infinite ease-in-out;
+    -webkit-animation: spinPulse 1s infinite linear;
+}
+
+.circle1 {
+    background-color: rgba(0,0,0,0);
+    /*border: 5px solid rgba(0,183,229,0.9);*/
+    border: 5px solid rgba(255,255,255,0.9);
+    opacity: .9;
+    border-left: 5px solid rgba(0,0,0,0);
+    border-right: 5px solid rgba(0,0,0,0);
+    border-radius: 50px;
+    box-shadow: 0 0 15px #2187e7;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    position: relative;
+    top: -50px;
+    -moz-animation: spinoffPulse 1s infinite linear;
+    -webkit-animation: spinoffPulse 1s infinite linear;
+}
+
+/***
+Override bootstrap
+***/
+.navbar-fixed-top
+{
+    background-color: #0097c6;
+    background-image: url(../Images/bg.png);
+    color:White;
+}
+.modal-content
+{
+    background-color: #0097c6;
+    background-image: url(../Images/bg.png);
+    color:White;    
+}
+.alert-warning
+{
+    padding:2px;
+    margin:3px;
+    padding-left:5px;
+    margin-left:40px;
+}
+
+.modal-content {
+    padding:20px;
+}
+
+.table>tbody>tr>td { 
+     border: none;
+ }
+
+.table-hover>tbody>tr:hover {
+    background-color:rgba(40,95,144,0.8);
+}
+
+.bgRow {
+    background-color:rgba(40,95,144,0.4);
+}
+
+
+
+ /*!
+ * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/* Toggle Styles */
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    /*-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;*/
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 250px;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+}
+
+/***
+Custom Styles
+***/
+#BrandText {
+    color:white;
+}
+.navbar-toggle
+{
+    background-color:white;
+    margin-top:25px;
+}
+#menu-toggle
+{
+    /*background-color:white;*/
+}
+.navbar-collapse
+{
+    background-color: #0097c6;
+    background-image: url(../Images/bg.png);
+}
+#NotificationButton
+{
+    background-color: white;
+    color:darkblue;
+}
+
+#NotificationButtonContainer
+{
+    margin:5px;
+}
+
+#NotificationButtonContainer ul 
+{
+    background-color: white;
+}
+
+#NotificationButtonContainer li 
+{
+    background-color: white;
+}
+
+.badgeDanger{background-color:maroon;}
+
+.usm-dropdown-menu {
+    width:100%;
+}
+
+
+.vertical-center {
+  min-height: 80%;  /* Fallback for vh unit */
+  min-height: 80vh; /* You might also want to use
+                        'height' property instead.
+                        
+                        Note that for percentage values of
+                        'height' or 'min-height' properties,
+                        the 'height' of the parent element
+                        should be specified explicitly.
+  
+                        In this case the parent of '.vertical-center'
+                        is the <body> element */
+
+  /* Make it a flex container */
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex; 
+  
+  /* Align the bootstrap's container vertically */
+    -webkit-box-align : center;
+  -webkit-align-items : center;
+       -moz-box-align : center;
+       -ms-flex-align : center;
+          align-items : center;
+  
+  /* In legacy web browsers such as Firefox 9
+     we need to specify the width of the flex container */
+  width: 100%;
+  
+  /* Also 'margin: 0 auto' doesn't have any effect on flex items in such web browsers
+     hence the bootstrap's container won't be aligned to the center anymore.
+  
+     Therefore, we should use the following declarations to get it centered again */
+         -webkit-box-pack : center;
+            -moz-box-pack : center;
+            -ms-flex-pack : center;
+  -webkit-justify-content : center;
+          justify-content : center;
+}
+
+#AdminHomeBody
+{
+    background-color: #0097c6;
+    background-image: url(../Images/bg.png);
+    vertical-align: middle;  /* vertical alignment of the inline element */
+    height: 90%;
+    padding-top: 20px;
+}
+
+
+#AdminHomeContent
+{
+    background-color: rgba(0, 151, 198, 0.8);
+    color:#FFFFFF;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+}
+
+.width100
+{
+    width:100%;
+}
+
+.required {
+    color: firebrick;
+    font-weight:bold;
+}
+
+.input-background {
+    padding:1px !important;
+    background-color:#EFEFEF;
+}
+
+.email-icon:before {
+    content: "@";
+    font-weight:900;
+    font-family:Tahoma;
+    font-size:16px;
+}
+
+/***
+AngularJS Styles
+***/
+/**Override*/
+.has-error { background-color:pink;
+}
+
+/***
+AngularJS Styles
+***/
+.animate-show-hide {
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.animate-show-hide.ng-hide {
+  opacity:0;
+}
+
+@-webkit-keyframes zoomInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+            transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+    -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+            animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+            transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+    -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+            animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+}
+
+@keyframes zoomInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+            transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+    -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+            animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+            transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+    -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+            animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+}
+
+.view-animate {
+  -webkit-animation: zoomInUp 1s 1; /* Chrome, Safari, Opera */ 
+  animation: zoomInUp 1s 1;
+}
+
+.view-animate.ng-enter, .view-animate.ng-leave {
+}
+
+.view-animate.ng-enter {
+    display:block;
+}
+.view-animate.ng-enter.ng-enter-active {
+}
+.view-animate.ng-leave.ng-leave-active {
+    opacity:0;
+    display:none;
+}
+
+/***
+Animations (Must be put at the end of the file, mobile limitation issue)
+***/
+@-moz-keyframes spinPulse {
+    0% {
+        -moz-transform: rotate(160deg);
+        opacity: 0;
+        box-shadow: 0 0 1px #2187e7;
+    }
+
+    50% {
+        -moz-transform: rotate(145deg);
+        opacity: 1;
+    }
+
+    100% {
+        -moz-transform: rotate(-320deg);
+        opacity: 0;
+    };
+}
+
+@-moz-keyframes spinoffPulse {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+    };
+}
+
+@-webkit-keyframes spinPulse {
+    0% {
+        -webkit-transform: rotate(160deg);
+        opacity: 0;
+        box-shadow: 0 0 1px #2187e7;
+    }
+
+    50% {
+        -webkit-transform: rotate(145deg);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: rotate(-320deg);
+        opacity: 0;
+    };
+}
+
+@-webkit-keyframes spinoffPulse {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    };
+}
+
+.animate-enter, .animate-leave {
+
+transition: 500ms ease-in all;
+position: relative;
+display: block;
+} 
+
+.animate-enter.animate-enter-active, .animate-leave {
+left: 0;
+}
+.animate-leave.animate-leave-active, .animate-enter {
+left: 500px;
+}
+    

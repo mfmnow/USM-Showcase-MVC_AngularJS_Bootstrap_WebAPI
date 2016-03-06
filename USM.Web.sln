@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USM.DAL", "DAL\USM.DAL.csproj", "{2CADDECC-E4F7-45F4-9A8D-88496ECDE89F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF457001-B8C1-4ADB-A98B-A5320262ABF6}"
+	ProjectSection(SolutionItems) = preProject
+		Comments.txt = Comments.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.USM.RandD", "Web.USM.RandD\Web.USM.RandD.csproj", "{73B67703-666E-4398-BE64-7A760EB02AA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.USM", "Web.USM\Web.USM.csproj", "{04888726-AE36-4A64-AD57-B86AE79CC11D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DocsAndSources", "DocsAndSources", "{DB33FA54-374C-4418-AF79-044EF22F9097}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Downloads\bootstrap.sts.v01.zip = ..\..\..\..\Downloads\bootstrap.sts.v01.zip
+		..\..\..\..\Downloads\Getting Started with Entity Framework 6 Code First using MVC 5.pdf = ..\..\..\..\Downloads\Getting Started with Entity Framework 6 Code First using MVC 5.pdf
+		..\..\..\..\Downloads\STS-StoreManager-SystemSpecs.docx = ..\..\..\..\Downloads\STS-StoreManager-SystemSpecs.docx
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CADDECC-E4F7-45F4-9A8D-88496ECDE89F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CADDECC-E4F7-45F4-9A8D-88496ECDE89F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CADDECC-E4F7-45F4-9A8D-88496ECDE89F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CADDECC-E4F7-45F4-9A8D-88496ECDE89F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73B67703-666E-4398-BE64-7A760EB02AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73B67703-666E-4398-BE64-7A760EB02AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73B67703-666E-4398-BE64-7A760EB02AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73B67703-666E-4398-BE64-7A760EB02AA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04888726-AE36-4A64-AD57-B86AE79CC11D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04888726-AE36-4A64-AD57-B86AE79CC11D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04888726-AE36-4A64-AD57-B86AE79CC11D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04888726-AE36-4A64-AD57-B86AE79CC11D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DB33FA54-374C-4418-AF79-044EF22F9097} = {AF457001-B8C1-4ADB-A98B-A5320262ABF6}
+	EndGlobalSection
+EndGlobal
